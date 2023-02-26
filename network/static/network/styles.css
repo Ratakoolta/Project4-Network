@@ -1,0 +1,27 @@
+#side {
+    position: fixed; 
+    width: 310px;
+}
+
+#main {
+    margin-left: 320px;
+}
+
+.btn-primary {
+    margin-left: 52%;
+    border-radius: 12px;
+    width: 90px;
+    height: 35px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+textarea {
+    border-color: rgb(226, 226, 226);
+    font-size: 20px;
+}
+
+hr {
+    width: 60%; 
+    margin-left: 0%;
+}

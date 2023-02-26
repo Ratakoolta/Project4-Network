@@ -1,5 +1,15 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    Por hacer
+    {% if user.is_authenticated %}
+        <h2 style="margin-top: 20px;">Inicio</h2> <br><br><br>
+        <form action="{% url 'newPost' %}" method="post">
+            {% csrf_token %}
+            <textarea style="width: 60%;" name="post" row="4" cols="100" placeholder="¿Que esta pasando?"></textarea> <br>
+            <input class="btn-primary" type="submit" value="Postear"/>
+        </form> 
+        <hr>
+    {% else %}
+        <p>Entra y enterate de lo que esta pasando en el mundo</p>
+    {% endif %}
 {% endblock %}
