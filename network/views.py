@@ -8,8 +8,11 @@ from .models import User, Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    inicio = Post.objects.all().order_by("id").reverse()
 
+    return render(request, "network/index.html", {
+        "inicio": inicio
+    })
 
 def login_view(request):
     if request.method == "POST":

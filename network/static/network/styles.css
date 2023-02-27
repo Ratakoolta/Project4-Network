@@ -25,3 +25,26 @@ hr {
     width: 60%; 
     margin-left: 0%;
 }
+
+#usuario {
+    font-weight: bold;
+    margin-bottom: -3px;
+    font-size: 15px;
+}
+
+#post {
+    margin-left: 14px;
+    width: 690px;
+}
+
+#fecha {
+    font-size: 10px;
+    margin-left: 50%;
+    margin-top: -20px;
+    margin-bottom: -10px;
+}
+
+#logo {
+    width: 250px;
+    margin: 30px;
+}

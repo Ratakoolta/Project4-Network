@@ -12,4 +12,15 @@
     {% else %}
         <p>Entra y enterate de lo que esta pasando en el mundo</p>
     {% endif %}
+
+    <div class="inicio">
+        {% for post in inicio %}
+            <div>
+                <p id="usuario">@{{ post.user }}</p>
+                <p id="post"> {{ post.post }}</p>
+                <p id="fecha">{{ post.date }}</p>
+                <hr style="margin-bottom: 10px;">
+            </div>
+            {% endfor %}
+    </div>
 {% endblock %}
