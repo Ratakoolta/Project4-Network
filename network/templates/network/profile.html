@@ -1,0 +1,59 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+    <head>
+        <title>{% block title %}Vox Populi{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+    </head>
+
+{% block body %}
+    
+    <div class="row d-flex" style="margin-left: 3px;">
+        <h1>{{ username }}</h1>    
+        {% if user.is_authenticated %}
+            {% if user != user_profile %}
+                {% if isFollowing %}
+                    <form action="{% url 'follow' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="userfollow" value="{{ user_profile }}" />
+                        <input type="submit" value="Seguir" class="btn-dark"/>
+                    </form>
+                {% else %}
+                    <form action="{% url 'unfollow' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="userfollow" value="{{ user_profile }}"/>
+                        <input type="submit" value="Olvidar" class="btn-dark"/>
+                    </form>
+                {% endif %}
+            {% endif %}
+        {% endif %}                            
+    </div>
+    <div class="row d-flex" style="margin-left: 3px;">
+    <h6>Seguidores: {{ followed.count }}</h6><h6 style="color: white;">__</h6><h6>Siguiendo: {{ follower.count }}</h6>
+    </div>
+    <br><br>
+    <h3>publicaciones</h3>
+    <hr>
+    <div class="inicio">
+        {% for post in publicaciones %}
+            <div>
+                <p id="usuario"><a href="{% url 'profile' user_id=post.user.id %}">@{{ post.user }}</a></p>
+                <p id="post"> {{ post.post }}</p>
+                <p id="fecha">{{ post.date }}</p>
+                <hr style="margin-bottom: 10px;">
+            </div>
+            {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if publicaciones.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ publicaciones.previous_page_number }}">Anterior</a></li>
+            {% endif %}
+            {% if publicaciones.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ publicaciones.next_page_number }}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+      </nav>
+{% endblock %}

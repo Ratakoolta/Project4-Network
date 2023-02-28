@@ -4,10 +4,10 @@
 }
 
 #main {
-    margin-left: 320px;
+    margin-left: 310px;
 }
 
-.btn-primary {
+#btn {
     margin-left: 52%;
     border-radius: 12px;
     width: 90px;
@@ -47,4 +47,18 @@ hr {
 #logo {
     width: 250px;
     margin: 30px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.btn-dark {
+    border-radius: 12px;
+    width: 70px;
+    height: 30px;
+    font-weight: bold;
+    margin-top: 12px;
+    margin-left: 5px;
+    font-size: 12px;
 }

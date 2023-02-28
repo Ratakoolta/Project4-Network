@@ -6,7 +6,7 @@
         <form action="{% url 'newPost' %}" method="post">
             {% csrf_token %}
             <textarea style="width: 60%;" name="post" row="4" cols="100" placeholder="¿Que esta pasando?"></textarea> <br>
-            <input class="btn-primary" type="submit" value="Postear"/>
+            <input class="btn-primary" type="submit" value="Postear" id="btn"/>
         </form> 
         <hr>
     {% else %}
@@ -14,13 +14,24 @@
     {% endif %}
 
     <div class="inicio">
-        {% for post in inicio %}
+        {% for post in publicaciones %}
             <div>
-                <p id="usuario">@{{ post.user }}</p>
+                <p id="usuario"><a href="{% url 'profile' user_id=post.user.id %}">@{{ post.user }}</a></p>
                 <p id="post"> {{ post.post }}</p>
                 <p id="fecha">{{ post.date }}</p>
                 <hr style="margin-bottom: 10px;">
             </div>
             {% endfor %}
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if publicaciones.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ publicaciones.previous_page_number }}">Anterior</a></li>
+            {% endif %}
+            {% if publicaciones.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ publicaciones.next_page_number }}">Siguiente</a></li>
+            {% endif %}
+        </ul>
+      </nav>
 {% endblock %}
