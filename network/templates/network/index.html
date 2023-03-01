@@ -1,6 +1,12 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+    <script>
+        function submitHandler(){
+            console.log('Hi')
+        }
+    </script>
+
     {% if user.is_authenticated %}
         <h2 style="margin-top: 20px;">Inicio</h2> <br><br><br>
         <form action="{% url 'newPost' %}" method="post">
@@ -19,9 +25,35 @@
                 <p id="usuario"><a href="{% url 'profile' user_id=post.user.id %}">@{{ post.user }}</a></p>
                 <p id="post"> {{ post.post }}</p>
                 <p id="fecha">{{ post.date }}</p>
+                {% if user.is_authenticated %}
+                    {% if user == post.user %}
+                        <div class="d-flex justify-content">
+                            <button class="btn btn-primary" id="edit" type="button" data-toggle="modal" data-target="#modal_edit_post_{{ post.id }}">Edit</button>
+                        </div>
+                        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="modal_edit_post_{{ post.id }}_label">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Edit Post</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea rows="5" id="textarea_{{ post.id }}" class="form-control" name="content">{{ post.content }}</textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" onclick="submitHandler()">Save changes</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endif %}
                 <hr style="margin-bottom: 10px;">
             </div>
-            {% endfor %}
+        {% endfor %}
     </div>
 
     <nav aria-label="Page navigation example">

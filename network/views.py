@@ -126,3 +126,23 @@ def newPost(request):
         post = Post(post=post, user=user)
         post.save()
         return HttpResponseRedirect(reverse(index))
+
+def following(request):
+    currentUser = User.objects.get(pk=request.user.id)
+    userFollowing = Follow.objects.filter(user=currentUser)
+    allPosts = Post.objects.all().order_by('id').reverse()
+
+    siguiendoPosts = []
+
+    for post in allPosts:
+        for person in userFollowing:
+            if person.followed == post.user:
+                siguiendoPosts.append(post)
+
+    paginator = Paginator(siguiendoPosts, 10)
+    paginas = request.GET.get('page')
+    publicaciones = paginator.get_page(paginas)
+
+    return render(request, "network/following.html", {
+        "publicaciones": publicaciones
+    })

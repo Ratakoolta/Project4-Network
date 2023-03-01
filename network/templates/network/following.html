@@ -1,0 +1,29 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <h2 style="margin-top: 20px;">Siguiendo</h2> <br><br><br>
+        
+        <div class="inicio">
+            {% for post in publicaciones %}
+                <div>
+                    <p id="usuario"><a href="{% url 'profile' user_id=post.user.id %}">@{{ post.user }}</a></p>
+                    <p id="post"> {{ post.post }}</p>
+                    <p id="fecha">{{ post.date }}</p>
+                    <hr style="margin-bottom: 10px;">
+                </div>
+            {% endfor %}
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if publicaciones.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ publicaciones.previous_page_number }}">Anterior</a></li>
+                {% endif %}
+                {% if publicaciones.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ publicaciones.next_page_number }}">Siguiente</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% endblock %}
