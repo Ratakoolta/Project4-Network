@@ -13,7 +13,7 @@
     <body>
         <div class="row">
             <div class="sidebar col-lg-2 col-md-3" id="side" style="width: 250px;">
-                <img id="logo" src="https://res.cloudinary.com/db90zkbrv/image/upload/v1677458586/logo_geoodt.png">
+                <a href="{% url 'index' %}"><img id="logo" src="https://res.cloudinary.com/db90zkbrv/image/upload/v1677458586/logo_geoodt.png"></a>
               <ul>
                 {% if user.is_authenticated %}
                     <div>
