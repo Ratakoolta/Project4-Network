@@ -7,8 +7,7 @@ from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
 
-from .models import User, Post, Follow
-
+from .models import User, Post, Follow, Like
 
 def index(request):
     inicio = Post.objects.all().order_by("id").reverse()
@@ -17,10 +16,30 @@ def index(request):
     paginas = request.GET.get('page')
     publicaciones = paginator.get_page(paginas)
 
+    meGustan = Like.objects.all()
+
+    liked = []
+    try:
+        for like in meGustan:
+            if like.user.id == request.user.id:
+                liked.append(like.post.id)
+
+    except:
+        liked = []
+
     return render(request, "network/index.html", {
         "inicio": inicio,
-        "publicaciones": publicaciones
+        "publicaciones": publicaciones,
+        "liked" : liked
     })
+
+def edit(request, post_id):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        edit_post = Post.objects.get(pk=post_id)
+        edit_post.content = data["content"]
+        edit_post.save()
+        return JsonResponse({"message": "Edición exitosa", "data": data["content"]}) 
 
 def profile(request, user_id):
     user = User.objects.get(pk=user_id)
@@ -149,10 +168,16 @@ def following(request):
         "publicaciones": publicaciones
     })
 
-def edit(request, post_id):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        edit_post = Post.objects.get(pk=post_id)
-        edit_post.content = data["post"]
-        edit_post.save()
-        return JsonResponse({"message": "Edición exitosa", "data": data["post"]})  
+def remove_like(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    user = User.objects.get(pk=request.user.id) 
+    like = Like.objects.filter(user=user, post=post) 
+    like.delete()
+    return JsonResponse({"message": "Like removed!"})
+
+def add_like(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    user = User.objects.get(pk=request.user.id) 
+    newLike = Like(user=user, post=post) 
+    newLike.save()
+    return JsonResponse({"message": "Like added!"})
