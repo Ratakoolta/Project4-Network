@@ -37,9 +37,9 @@ def edit(request, post_id):
     if request.method == "POST":
         data = json.loads(request.body)
         edit_post = Post.objects.get(pk=post_id)
-        edit_post.content = data["content"]
+        edit_post.post = data["post"]
         edit_post.save()
-        return JsonResponse({"message": "Edición exitosa", "data": data["content"]}) 
+        return JsonResponse({"message": "Edición exitosa", "data": data["post"]}) 
 
 def profile(request, user_id):
     user = User.objects.get(pk=user_id)

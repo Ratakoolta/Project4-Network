@@ -16,11 +16,12 @@
                 method: "POST",
                 headers: {"content-type": "application/json", "X-CSRFToken": getCookie("csrftoken")},
                 body: JSON.stringify({
-                    content: textareaValue
+                    post: textareaValue
                 })
             })
             .then(response => response.json())
             .then(result => {
+                
                 console.log(result)
                 content.innerHTML = result.data;
 
@@ -30,7 +31,7 @@
 
                 const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
 
-                for(let i=0; i<modalsbackdrops.length; i++){
+                for(let i=0; i<modalsBackdrops.length; i++){
                     document.body.removeChild(modalsBackdrops[i]);
                 }
             })
@@ -49,13 +50,13 @@
 
             if(gusta === true){
                 fetch(`/remove_like/${id}`) 
-                .then(response => response.json) 
+                .then(response => response.json()) 
                 .then(result => {
                     btn.classList.add('fa-thumbs-up')
                 })
             } else{
                 fetch(`/add_like/${id}`) 
-                .then(response => response.json) 
+                .then(response => response.json()) 
                 .then(result => {
                     btn.classList.add('fa-thumbs-down')
                 })
@@ -103,7 +104,7 @@
                                         <textarea rows="5" id="textarea_{{ post.id }}" class="form-control" name="content">{{ post.post }}</textarea>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" onclick="submitHandler({{ post.id }})">Guardar cambios</button>
+                                        <button type="button" class="btn btn-primary" onclick="submitHandler('{{ post.id }}')">Guardar cambios</button>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                     </div>
                                 </div>
@@ -111,9 +112,9 @@
                         </div>
                     {% else %}
                         {% if post.id in liked %}
-                        <button class="btn btn-link" id="{{ post.id }}" onclick="likeHandler({{ post.id }}, {{ liked }})"><i class="fa fa-thumbs-down" style="color: black;"></i></button>
+                        <button class="btn btn-link" id="{{ post.id }}" onclick="likeHandler('{{ post.id }}', '{{ liked }}')"><i class="fa fa-thumbs-down" style="color: black;"></i></button>
                         {% else %}
-                        <button class="btn btn-link" id="{{ post.id }}" onclick="likeHandler({{ post.id }}, {{ liked }})"><i class="fa fa-thumbs-up" style="color: rgb(52, 52, 228);"></i></button>                        
+                        <button class="btn btn-link" id="{{ post.id }}" onclick="likeHandler('{{ post.id }}', '{{ liked }}')"><i class="fa fa-thumbs-up" style="color: rgb(52, 52, 228);"></i></button>                        
                         {% endif %}
                     {% endif %}
                 {% endif %}
