@@ -25,16 +25,14 @@
                 console.log(result)
                 content.innerHTML = result.data;
 
-                modal.classList.remove('show');
-                modal.setAttribute('aria-hidden', 'true');
-                modal.setAttribute('style', 'display: none');
+                $('#modal_edit_post_' + id).modal('hide');
 
                 const modalsBackdrops = document.getElementsByClassName('modal-backdrop');
 
                 for(let i=0; i<modalsBackdrops.length; i++){
                     document.body.removeChild(modalsBackdrops[i]);
                 }
-            })
+            });
         }
         function likeHandler(id, liked){
             const btn = document.getElementById(`${id}`);
@@ -86,12 +84,12 @@
                 {% if user.is_authenticated %}
                     {% if user == post.user %}
                         <!-- Button trigger modal -->
-                        <button  id="edit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_edit_post_{{ post.id }}">
                             Editar
-                        </button>
+                        </button>                        
   
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="modal_edit_post_{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
